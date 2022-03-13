@@ -24,79 +24,106 @@ extern int yylineno;
 int CTRL_M = 0;
 
 %}
+AND "and"
+BY "by"
+CHAR "char"
+ELSE "else"
+FOR "for"
+IF "if"
+INT "int"
+NOT "not"
+OR "or"
+PROCEDURE "procedure"
+READ "read"
+THEN "then"
+TO "to"
+WHILE "while"
+WRITE "write"
+
+LT "<"
+LE "<="
+EQ "=="
+NE "!="
+GT ">"
+GE ">="
+
+NAME [A-Za-z][A-Za-z0-9]*
+NUMBER [0-9]+
+CHARCONST '([^\n]|\\.)'
+
 %%
  /* rules  */
-"and" {
+{AND} {
 	printf("AND\n");
 	return AND;
 }
 
-"by" {
+{BY} {
 	printf("BY\n");
 	return BY;
 }
 
-"char" {
+{CHAR} {
 	printf("CHAR\n");
 	return CHAR;
 }
 
-"else" {
+{ELSE} {
 	printf("ELSE\n");
 	return ELSE;
 }
 
-"for" {
+{FOR} {
 	printf("FOR\n");
 	return FOR;
 }
 
-"if" {
+{IF} {
 	printf("IF\n");
 	return IF;
 }
 
-"int" {
+{INT} {
 	printf("INT\n");
 	return INT;
 }
 
-"not" {
+{NOT} {
 	printf("NOT\n");
 	return NOT;
 }
 
-"or" {
+{OR} {
 	printf("OR\n");
 	return OR;
 }
 
-"procedure" {
+{PROCEDURE} {
 	printf("PROCEDURE\n");
 	return PROCEDURE;
 }
 
-"read" {
+{READ} {
 	printf("READ\n");
 	return READ;
 }
 
-"then" {
+{THEN} {
 	printf("THEN\n");
 	return THEN;
 }
 
-"to" {
+{TO} {
 	printf("TO\n");
 	return TO;
 }
 
-"while" {
+{WHILE} {
 	printf("WHILE\n");
 	return WHILE;
 }
 
-"write" {
+{WRITE} {
 	printf("WRITE\n");
 	return WRITE;
 }
@@ -121,32 +148,33 @@ int CTRL_M = 0;
 	
 	return '/';
 }
-"<" {
+
+{LT} {
 	printf("LT\n");
 	return LT;
 }
 
-"<=" {
+{LE} {
 	printf("LE\n");
 	return LE;
 }
 
-"==" {
+{EQ} {
 	printf("EQ\n");
 	return EQ;
 }
 
-"!=" {
+{NE} {
 	printf("NE\n");
 	return NE;
 }
 
-">" {
+{GT} {
 	printf("GT\n");
 	return GT;
 }
 
-">=" {
+{GE} {
 	printf("GE\n");
 	return GE;
 }
@@ -201,17 +229,17 @@ int CTRL_M = 0;
 	return ')';
 }
 
-[A-Za-z][A-Za-z0-9]* {
+{NAME} {
 	printf("NAME\n");
 	return NAME;
 }
 
-[0-9]+ {
+{NUMBER} {
 	printf("NUMBER\n");
 	return NUMBER;
 }
 
-'([^\n]|\\.)' {
+{CHARCONST} {
 	printf("CHARCONST\n");	
 	return CHARCONST;
 }
@@ -224,16 +252,13 @@ int CTRL_M = 0;
 	printf("BLANK\n");
 }
 
-/* add the [\n] to the rule.m Although it is not mentioned in files, it is necessary to be included. */
 [\n] {
-	printf("LINE++\n");
 	yylineno++;
 }
-/* handle the unexpected others */
-.	{
+
+. {
 	printf("unexpected character\n");
 }
-
 %%
 
 /* user code */

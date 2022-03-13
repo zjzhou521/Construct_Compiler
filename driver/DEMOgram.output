@@ -1,25 +1,209 @@
+Useless nonterminals
+
+   Procedure
+   Decls
+   Decl
+   Type
+   SpecList
+   Spec
+   Bounds
+   Bound
+   Stmts
+   Stmt
+   WithElse
+   Bool
+   OrTerm
+   AndTerm
+   RelExpr
+   Expr
+   Term
+   Factor
+   Reference
+   Exprs
+
+
+Terminals which are not used
+
+   AND
+   BY
+   CHAR
+   ELSE
+   FOR
+   IF
+   INT
+   NOT
+   OR
+   PROCEDURE
+   READ
+   THEN
+   TO
+   WHILE
+   WRITE
+   '*'
+   '/'
+   '+'
+   '-'
+   GE
+   LE
+   NE
+   GT
+   EQ
+   LT
+   NAME
+   NUMBER
+   CHARCONST
+   ':'
+   ';'
+   ','
+   '='
+   '('
+   ')'
+   '['
+   ']'
+   '{'
+   '}'
+
+
+Useless rules
+
+    2 Procedure: PROCEDURE NAME '{' Decls Stmts '}'
+
+    3 Decls: Decls Decl ';'
+    4      | Decl ';'
+
+    5 Decl: Type SpecList
+
+    6 Type: INT
+    7     | CHAR
+
+    8 SpecList: SpecList ',' Spec
+    9         | Spec
+
+   10 Spec: NAME
+   11     | NAME '[' Bounds ']'
+
+   12 Bounds: Bounds ',' Bound
+   13       | Bound
+
+   14 Bound: NUMBER ':' NUMBER
+
+   15 Stmts: Stmts Stmt
+   16      | Stmt
+
+   17 Stmt: Reference '=' Expr ';'
+   18     | '{' Stmts '}'
+   19     | WHILE '(' Bool ')' '{' Stmts '}'
+   20     | FOR NAME '=' Expr TO Expr BY Expr '{' Stmts '}'
+   21     | IF '(' Bool ')' THEN Stmt
+   22     | IF '(' Bool ')' THEN WithElse ELSE Stmt
+   23     | READ Reference ';'
+   24     | WRITE Expr ';'
+
+   25 WithElse: IF '(' Bool ')' THEN WithElse ELSE WithElse
+   26         | Reference '=' Expr ';'
+   27         | '{' Stmts '}'
+   28         | WHILE '(' Bool ')' '{' Stmts '}'
+   29         | FOR NAME '=' Expr TO Expr BY Expr '{' Stmts '}'
+   30         | READ Reference ';'
+   31         | WRITE Expr ';'
+
+   32 Bool: NOT OrTerm
+   33     | OrTerm
+
+   34 OrTerm: OrTerm OR AndTerm
+   35       | AndTerm
+
+   36 AndTerm: AndTerm AND RelExpr
+   37        | RelExpr
+
+   38 RelExpr: RelExpr LT Expr
+   39        | RelExpr LE Expr
+   40        | RelExpr EQ Expr
+   41        | RelExpr NE Expr
+   42        | RelExpr GE Expr
+   43        | RelExpr GT Expr
+   44        | Expr
+
+   45 Expr: Expr '+' Term
+   46     | Expr '-' Term
+   47     | Term
+
+   48 Term: Term '*' Factor
+   49     | Term '/' Factor
+   50     | Factor
+
+   51 Factor: '(' Expr ')'
+   52       | Reference
+   53       | NUMBER
+   54       | CHARCONST
+
+   55 Reference: NAME
+   56          | NAME '[' Exprs ']'
+
+   57 Exprs: Expr ',' Exprs
+   58      | Expr
+
+
 Grammar
 
     0 $accept: Grammar $end
 
-    1 Grammar: %empty
+    1 Grammar: /* empty */
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
+'(' (40)
+')' (41)
+'*' (42)
+'+' (43)
+',' (44)
+'-' (45)
+'/' (47)
+':' (58)
+';' (59)
+'=' (61)
+'[' (91)
+']' (93)
+'{' (123)
+'}' (125)
 error (256)
+AND (258)
+BY (259)
+CHAR (260)
+ELSE (261)
+FOR (262)
+IF (263)
+INT (264)
+NOT (265)
+OR (266)
+PROCEDURE (267)
+READ (268)
+THEN (269)
+TO (270)
+WHILE (271)
+WRITE (272)
+GE (273)
+LE (274)
+NE (275)
+GT (276)
+EQ (277)
+LT (278)
+NAME (279)
+NUMBER (280)
+CHARCONST (281)
 
 
 Nonterminals, with rules where they appear
 
-$accept (3)
+$accept (41)
     on left: 0
-Grammar (4)
+Grammar (42)
     on left: 1, on right: 0
 
 
-State 0
+state 0
 
     0 $accept: . Grammar $end
 
@@ -28,14 +212,14 @@ State 0
     Grammar  go to state 1
 
 
-State 1
+state 1
 
     0 $accept: Grammar . $end
 
     $end  shift, and go to state 2
 
 
-State 2
+state 2
 
     0 $accept: Grammar $end .
 
